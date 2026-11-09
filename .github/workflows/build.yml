@@ -4,9 +4,6 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: TriggerBot-fabric-1_20_1
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -17,10 +14,14 @@ jobs:
         with:
           gradle-version: 8.5
       - name: Build
-        run: gradle build --no-daemon
+        run: |
+          DIR=$(dirname "$(find . -name settings.gradle -not -path './.git/*' | head -n 1)")
+          echo "Proje klasoru: $DIR"
+          cd "$DIR"
+          gradle build --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: TriggerBot
           path: |
-            TriggerBot-fabric-1_20_1/build/libs/*.jar
-            !TriggerBot-fabric-1_20_1/build/libs/*-sources.jar
+            **/build/libs/*.jar
+            !**/build/libs/*-sources.jar
