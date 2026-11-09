@@ -15,9 +15,14 @@ jobs:
           gradle-version: 8.5
       - name: Build
         run: |
-          DIR=$(dirname "$(find . -name settings.gradle -not -path './.git/*' | head -n 1)")
-          echo "Proje klasoru: $DIR"
-          cd "$DIR"
+          if [ ! -f settings.gradle ]; then
+            ZIP=$(find . -name '*.zip' -not -path './.git/*' | head -n 1)
+            echo "Zip: $ZIP"
+            mkdir -p proj
+            unzip -q "$ZIP" -d proj
+            DIR=$(dirname "$(find proj -name settings.gradle | head -n 1)")
+            cd "$DIR"
+          fi
           gradle build --no-daemon
       - uses: actions/upload-artifact@v4
         with:
