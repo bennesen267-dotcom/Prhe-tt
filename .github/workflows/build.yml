@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: KLASOR_ADI
+        working-directory: TriggerBot-fabric-1_20_1
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -22,5 +22,5 @@ jobs:
         with:
           name: TriggerBot
           path: |
-            KLASOR_ADI/build/libs/*.jar
-            !KLASOR_ADI/build/libs/*-sources.jar
+            TriggerBot-fabric-1_20_1/build/libs/*.jar
+            !TriggerBot-fabric-1_20_1/build/libs/*-sources.jar
